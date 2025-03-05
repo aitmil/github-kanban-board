@@ -1,7 +1,14 @@
 import { Box, Heading, VStack } from '@chakra-ui/react';
-import { IssueCard } from './issue-card';
 
-export const Done = () => {
+import { IssueCard } from './issue-card';
+import { Issue } from '@/interfaces/issues';
+
+interface IssueListProps {
+  title: string;
+  issues: Issue[];
+}
+
+export const IssueList = ({ title, issues }: IssueListProps) => {
   return (
     <Box as="li" w="32%">
       <Heading
@@ -9,23 +16,25 @@ export const Done = () => {
         fontFamily="Comic Sans MS"
         fontWeight="bold"
         fontSize="2xl"
-        mb={2}
+        mb={3}
         textAlign="center"
       >
-        Done
+        {title}
       </Heading>
-      <VStack
-        as="ul"
+      <Box
         w={'100%'}
         h="70vh"
-        p={4}
+        py={4}
         bg="gray.300"
         border="1px solid black"
         borderRadius="10px"
-        overflowY="auto"
       >
-        <IssueCard />
-      </VStack>
+        <VStack as="ul" px={4} h="full" overflowY="auto">
+          {issues.map(issue => (
+            <IssueCard key={issue.id} issue={issue} />
+          ))}
+        </VStack>
+      </Box>
     </Box>
   );
 };
