@@ -1,14 +1,16 @@
 import { HStack } from '@chakra-ui/react';
-import { ToDo } from './to-do';
-import { InProgress } from './in-progress';
-import { Done } from './done';
+
+import { useAppSelector } from '@/redux/hooks';
+import { IssueList } from './issue-list';
 
 export const KanbanBoard = () => {
+  const { todo, inProgress, done } = useAppSelector(state => state.issues);
+
   return (
     <HStack as="ul" w="100%" justify="space-between">
-      <ToDo />
-      <InProgress />
-      <Done />
+      <IssueList title="ToDo" issues={todo} />
+      <IssueList title="In Progress" issues={inProgress} />
+      <IssueList title="Done" issues={done} />
     </HStack>
   );
 };

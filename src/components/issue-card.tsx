@@ -1,6 +1,11 @@
 import { Heading, Text, Box } from '@chakra-ui/react';
 
-export const IssueCard = () => {
+import { Issue } from '@/interfaces/issues';
+import { calculateDaysFromDate } from '@/utils/issues';
+
+export const IssueCard = ({ issue }: { issue: Issue }) => {
+  const daysAgo = calculateDaysFromDate(issue.created_at);
+
   return (
     <Box
       as="li"
@@ -13,12 +18,24 @@ export const IssueCard = () => {
       <Heading
         as="h3"
         fontFamily="Comic Sans MS"
-        fontSize={16}
+        fontSize={18}
         letterSpacing={1}
+        truncate
+        _hover={{ whiteSpace: 'normal', overflow: 'visible' }}
       >
-        Some issue title
+        {issue.title}
       </Heading>
-      <Text>Some issue description</Text>
+      <Text color="gray.500">
+        #{issue.number} opened{' '}
+        {daysAgo === 0
+          ? 'today'
+          : daysAgo === 1
+          ? '1 day ago'
+          : `${daysAgo} days ago`}
+      </Text>
+      <Text color="gray.500">
+        {issue.user.type} | Comments: {issue.comments}
+      </Text>
     </Box>
   );
 };
